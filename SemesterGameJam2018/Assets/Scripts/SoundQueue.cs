@@ -7,7 +7,7 @@ namespace SoundQueueSystem
     public class SoundQueue : MonoBehaviour
     {
         private Vector3 position = new Vector3(0, 0, 0);
-        private float intensity = 1.0f;
+        private float volume = 1.0f;
 
         private float spatialBlend = 1.0f;
 
@@ -30,29 +30,34 @@ namespace SoundQueueSystem
         /// <summary>
         ///  Invokes every necessary Elements for this SoundQueue
         /// </summary>
-        public void InvokeQueue(Vector3 pos)
+        public void InvokeQueue(Vector3 pos, float range, float endurance)
         {
             // Set Position of the SoundQueue object
-            gameObject.transform.position = pos;
+            if(gameObject.tag != "Player")
+            {
+                gameObject.transform.position = pos;
+            }
+
+            SoundwaveManager.PlaceSoundSource(pos, range, endurance, Random.ColorHSV());
 
             // Set AudioSource Properties
             Source.clip = Sound;
             Source.spatialBlend = spatialBlend;
-            Source.volume = intensity > 1.0f ? intensity / 100.0f: intensity;
+            Source.volume = volume > 1.0f ? volume / 100.0f: volume;
 
             Source.Play();
         }
 
-        public float Intensity
+        public float Volume
         {
             get
             {
-                return intensity;
+                return volume;
             }
 
             set
             {
-                intensity = value;
+                volume = value;
             }
         }
 

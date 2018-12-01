@@ -55,6 +55,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private SoundQueue m_jumpQueue;
         private SoundQueue m_stepQueue;
 
+        private float stepRange = 10.0f;
+        private float stepEndurance = 4.0f;
+        private float jumpRange = 10.0f;
+        private float jumpEndurance = 1.0f;
+        private float landRange = 20.0f;
+        private float landEndurance = 5.0f;
+
         // Use this for initialization
         private void Start()
         {
@@ -71,13 +78,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
 
+            // SoundQueues
             m_jumpQueue = gameObject.AddComponent<SoundQueue>();
-            m_jumpQueue.Intensity = m_jumpQueueIntensity;
+            m_jumpQueue.Volume = m_jumpQueueIntensity;
             m_jumpQueue.Sound = m_JumpSound;
             m_jumpQueue.Source = m_AudioSource;
 
             m_stepQueue = gameObject.GetComponent<SoundQueue>();
-            m_stepQueue.Intensity = m_StepQueueIntensity;
+            m_stepQueue.Volume = m_StepQueueIntensity;
             m_stepQueue.Source = m_AudioSource;
         }
 
@@ -112,6 +120,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             //m_AudioSource.clip = m_LandSound;
             //m_AudioSource.Play();
+            m_jumpQueue.Sound = m_LandSound;
+            m_jumpQueue.InvokeQueue(GetFeetPos(), landRange, landEndurance);
             m_NextStep = m_StepCycle + .5f;
         }
 
@@ -162,8 +172,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             //m_AudioSource.clip = m_JumpSound;
             //m_AudioSource.Play();
-            
-            m_jumpQueue.InvokeQueue(transform.position);
+            m_jumpQueue.Sound = m_JumpSound;
+            m_jumpQueue.InvokeQueue(GetFeetPos(), jumpRange, jumpEndurance);
         }
 
 
@@ -198,7 +208,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //m_AudioSource.clip = m_FootstepSounds[n];
             //m_AudioSource.PlayOneShot(m_AudioSource.clip);
             m_stepQueue.Sound = m_FootstepSounds[n];
-            m_stepQueue.InvokeQueue(transform.position);
+            m_stepQueue.InvokeQueue(GetFeetPos(), stepRange, stepEndurance);
 
             // move picked sound to index 0 so it's not picked next time
             m_FootstepSounds[n] = m_FootstepSounds[0];
@@ -283,6 +293,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        private Vector3 GetFeetPos()
+        {
+            Vector3 feetPos = new Vector3(transform.position.x, transform.position.y-1.0f, transform.position.z);
+            return feetPos;
         }
     }
 }

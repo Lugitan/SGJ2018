@@ -15,7 +15,7 @@ public class PassiveQueueHandler : MonoBehaviour {
 	void Start () {
         m_sq = gameObject.AddComponent<SoundQueue>();
 
-        m_sq.Intensity = intenstiy;
+        m_sq.Volume = intenstiy;
         m_sq.Sound = clip;
         m_sq.Source = gameObject.AddComponent<AudioSource>();
 
@@ -28,7 +28,7 @@ public class PassiveQueueHandler : MonoBehaviour {
         if(m_t < 0)
         {
             m_t = m_timer;
-            m_sq.InvokeQueue(transform.position);
+            m_sq.InvokeQueue(transform.position, 10, 3);
         }
 	}
 }
