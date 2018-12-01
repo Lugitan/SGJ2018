@@ -284,9 +284,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5525f7fcdb51f6f469ee02bbb7899ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   intenstiy: 30
   clip: {fileID: 8300000, guid: dbcb6062ddf9ba74aa5c525e4db2a11d, type: 3}
   m_timer: 3
+=======
+  intenstiy: 1
+  clip: {fileID: 8300000, guid: dbcb6062ddf9ba74aa5c525e4db2a11d, type: 3}
+  m_timer: 10
+>>>>>>> player-dev
 --- !u!114 &579129684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +311,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 579129682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -2.62, y: 0.54, z: 2.18}
+=======
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+>>>>>>> player-dev
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1127771031}
@@ -337,7 +347,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1127771030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: 0, y: 0, z: 0}
+=======
+  m_LocalPosition: {x: -3, y: 0.63, z: 3.46}
+>>>>>>> player-dev
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 579129685}
@@ -549,6 +563,7 @@ Prefab:
       propertyPath: m_testSoundQueue
       value: 
       objectReference: {fileID: 8300000, guid: dbcb6062ddf9ba74aa5c525e4db2a11d, type: 3}
+<<<<<<< HEAD
     - target: {fileID: 82034720557562544, guid: ec467e821b5bd814e944c7650abee5f8,
         type: 2}
       propertyPath: m_PlayOnAwake
@@ -559,6 +574,8 @@ Prefab:
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
+=======
+>>>>>>> player-dev
     m_RemovedComponents:
     - {fileID: 114026953172909160, guid: ec467e821b5bd814e944c7650abee5f8, type: 2}
     - {fileID: 114310652676917226, guid: ec467e821b5bd814e944c7650abee5f8, type: 2}
