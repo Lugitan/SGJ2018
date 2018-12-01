@@ -18,6 +18,7 @@ public class SoundwaveManager : MonoBehaviour {
 
     public static void PlaceSoundSource(Vector3 position, float range, float endurance, Color color)
     {
+        AIBehaviour.PlayerMakesSound(position, 1);
         instance.StartCoroutine(instance.fade(position, range, endurance, 1, color));
     }
 
