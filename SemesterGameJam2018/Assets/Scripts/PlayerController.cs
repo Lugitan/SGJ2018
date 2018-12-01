@@ -11,6 +11,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class PlayerController : MonoBehaviour
     {
+        public static PlayerController instance;
+
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -33,6 +35,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_jumpQueueIntensity;
         [SerializeField] private float m_StepQueueIntensity;
         [SerializeField] private float m_RunQueueIntensity;
+        [SerializeField] private AudioClip m_testSoundQueue;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -55,6 +58,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Use this for initialization
         private void Start()
         {
+            instance = this;
+
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -66,8 +71,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
 
-            m_jumpQueue = new SoundQueue(m_OriginalCameraPosition, m_jumpQueueIntensity, m_JumpSound);
-            m_stepQueue = new SoundQueue(m_OriginalCameraPosition, m_StepQueueIntensity, m_FootstepSounds[0]);
+            m_jumpQueue = gameObject.AddComponent<SoundQueue>();
+            m_jumpQueue.Intensity = m_jumpQueueIntensity;
+            m_jumpQueue.Sound = m_JumpSound;
+            m_jumpQueue.Source = m_AudioSource;
+
+            m_stepQueue = gameObject.GetComponent<SoundQueue>();
+            m_stepQueue.Intensity = m_StepQueueIntensity;
+            m_stepQueue.Source = m_AudioSource;
         }
 
 
@@ -99,8 +110,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void PlayLandingSound()
         {
-            m_AudioSource.clip = m_LandSound;
-            m_AudioSource.Play();
+            //m_AudioSource.clip = m_LandSound;
+            //m_AudioSource.Play();
             m_NextStep = m_StepCycle + .5f;
         }
 
@@ -149,10 +160,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void PlayJumpSound()
         {
-            m_AudioSource.clip = m_JumpSound;
-            m_AudioSource.Play();
-
-            m_jumpQueue.InvokeQueue();
+            //m_AudioSource.clip = m_JumpSound;
+            //m_AudioSource.Play();
+            
+            m_jumpQueue.InvokeQueue(transform.position);
         }
 
 
@@ -184,8 +195,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // pick & play a random footstep sound from the array,
             // excluding sound at index 0
             int n = Random.Range(1, m_FootstepSounds.Length);
-            m_AudioSource.clip = m_FootstepSounds[n];
-            m_AudioSource.PlayOneShot(m_AudioSource.clip);
+            //m_AudioSource.clip = m_FootstepSounds[n];
+            //m_AudioSource.PlayOneShot(m_AudioSource.clip);
+            m_stepQueue.Sound = m_FootstepSounds[n];
+            m_stepQueue.InvokeQueue(transform.position);
+
             // move picked sound to index 0 so it's not picked next time
             m_FootstepSounds[n] = m_FootstepSounds[0];
             m_FootstepSounds[0] = m_AudioSource.clip;

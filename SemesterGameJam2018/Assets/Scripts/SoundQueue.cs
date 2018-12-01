@@ -6,42 +6,33 @@ namespace SoundQueueSystem
 {
     public class SoundQueue : MonoBehaviour
     {
+        private Vector3 position = new Vector3(0, 0, 0);
+        private float intensity = 1.0f;
 
-        [SerializeField] private Vector3 position = new Vector3(0, 0, 0);
-        [SerializeField] private float intensity = 1.0f;
-        [SerializeField] private AudioClip sound = null;
+        public AudioClip Sound { get; set; }
+        public AudioSource Source { get; set; }
 
-        public SoundQueue(Vector3 position, float intensity, AudioClip sound)
-        {
-            this.position = position;
-            this.intensity = intensity;
-            this.sound = sound;
-        }
+        //public SoundQueue(Vector3 position, float intensity, AudioClip sound)
+        //{
+        //    this.position = position;
+        //    this.intensity = intensity;
+        //    this.sound = sound;
+
+        //    m_g = new GameObject
+        //    {
+        //        name = "SoundQueue"
+        //    };
+        //    m_g.AddComponent<AudioSource>();
+        //}
 
         /// <summary>
         ///  Invokes every necessary Elements for this SoundQueue
         /// </summary>
-        public void InvokeQueue()
+        public void InvokeQueue(Vector3 pos)
         {
-            GameObject sq = new GameObject();
-            sq.transform.position = position;
-
-            Destroy(sq);
-        }
-
-        
-
-        public AudioClip Sound
-        {
-            get
-            {
-                return sound;
-            }
-
-            set
-            {
-                sound = value;
-            }
+            Source.clip = Sound;
+            position = pos;
+            Source.Play();
         }
 
         public float Intensity
@@ -82,6 +73,5 @@ namespace SoundQueueSystem
                 position = value;
             }
         }
-
     }
 }
