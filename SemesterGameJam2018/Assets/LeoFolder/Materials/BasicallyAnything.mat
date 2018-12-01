@@ -72,7 +72,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _WaveHeight: 0.1
-    - _WaveY: -2.5804105
+    - _WaveY: 3.841897
     - _Waves: 177
     - _ZWrite: 1
     m_Colors:
