@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using SoundQueueSystem;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -28,6 +29,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        // Custom SoundQueue properties
+        [SerializeField] private float m_jumpQueueIntensity;
+        [SerializeField] private float m_StepQueueIntensity;
+        [SerializeField] private float m_RunQueueIntensity;
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -42,6 +48,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        // Custom Soundqueues
+        private SoundQueue m_jumpQueue;
+        private SoundQueue m_stepQueue;
+
         // Use this for initialization
         private void Start()
         {
@@ -51,10 +61,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_FovKick.Setup(m_Camera);
             m_HeadBob.Setup(m_Camera, m_StepInterval);
             m_StepCycle = 0f;
-            m_NextStep = m_StepCycle/2f;
+            m_NextStep = m_StepCycle / 2f;
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
-			m_MouseLook.Init(transform , m_Camera.transform);
+            m_MouseLook.Init(transform, m_Camera.transform);
+
+            m_jumpQueue = new SoundQueue(m_OriginalCameraPosition, m_jumpQueueIntensity, m_JumpSound);
+            m_stepQueue = new SoundQueue(m_OriginalCameraPosition, m_StepQueueIntensity, m_FootstepSounds[0]);
         }
 
 
@@ -138,6 +151,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             m_AudioSource.clip = m_JumpSound;
             m_AudioSource.Play();
+
+            m_jumpQueue.InvokeQueue();
         }
 
 
