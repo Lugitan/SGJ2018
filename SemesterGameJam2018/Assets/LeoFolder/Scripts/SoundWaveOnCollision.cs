@@ -9,6 +9,7 @@ public class SoundWaveOnCollision : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+        Debug.Log(col.relativeVelocity.magnitude);
         if (col.relativeVelocity.magnitude < 0.1f) { return; }
         float factor = 1;
         Vector3 pos = transform.position;
@@ -17,7 +18,7 @@ public class SoundWaveOnCollision : MonoBehaviour {
             pos = col.contacts[0].point + col.contacts[0].normal * 0.2f;
         }
         factor = col.relativeVelocity.magnitude * velocityScale;
-        SoundwaveManager.PlaceSoundSource(transform.position, factor * range, factor * endurance, color);
+        SoundwaveManager.PlaceSoundSource(transform.position, factor * range, endurance, color);
     }
 
     void OnTriggerEnter(Collider other)
