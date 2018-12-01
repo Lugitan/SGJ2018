@@ -8,6 +8,7 @@ namespace SoundQueueSystem
     {
         private Vector3 position = new Vector3(0, 0, 0);
         private float intensity = 1.0f;
+        private float spatialBlend = 1.0f;
 
         public AudioClip Sound { get; set; }
         public AudioSource Source { get; set; }
@@ -30,8 +31,14 @@ namespace SoundQueueSystem
         /// </summary>
         public void InvokeQueue(Vector3 pos)
         {
+            // Set Position of the 
+            gameObject.transform.position = pos;
+
+            // Set AudioSource Properties
             Source.clip = Sound;
-            position = pos;
+            Source.spatialBlend = spatialBlend;
+            Source.volume = intensity > 1.0f ? intensity / 100.0f: intensity;
+
             Source.Play();
         }
 
@@ -71,6 +78,19 @@ namespace SoundQueueSystem
             set
             {
                 position = value;
+            }
+        }
+
+        public float SpatialSound
+        {
+            get
+            {
+                return spatialBlend;
+            }
+
+            set
+            {
+                spatialBlend = value;
             }
         }
     }
